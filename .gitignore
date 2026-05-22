@@ -1,0 +1,40 @@
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ── Virtual environments ───────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── IDE / editor ───────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ─────────────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# ── DBDTracker output ──────────────────────────────────────────────────────────
+# Per-user CSV — don't commit your own match history
+dbd_stats.csv
+# Debug screenshots saved by debug_overlay.py
+data/debug_*.png
+
+# ── Backups ────────────────────────────────────────────────────────────────────
+*.bak
+*.bak.*
+
+# ── Optional: uncomment if you don't want to ship your captured templates ──────
+# data/templates/*.png
