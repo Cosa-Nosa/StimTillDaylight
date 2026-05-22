@@ -1,0 +1,47 @@
+DBDTracker — READ BEFORE USING
+================================
+
+This program does TWO things, controlled in config.ini:
+
+1. STAT TRACKING (always on)
+   Screen capture + template matching → one CSV row per DBD match.
+   No game memory access. No anticheat risk.
+
+2. INTIFACE / BUTTPLUG.IO OUTPUT (optional)
+   USING_INTIFACE = no   disables actuator output entirely.
+
+────────────────────────────────────────────────────────────────────────────────
+SAFETY
+
+- EMERGENCY STOP HOTKEY: Ctrl+Shift+F10 (configurable in config.ini)
+  Press to halt ALL actuator output immediately. Works regardless of focus.
+
+- MAX_VIBE_INTENSITY caps every output globally. Lower it for a session cap.
+
+- BLEEDING_OUT_EVENT defaults to 1 — all output stops while bleeding out.
+
+- Close the window or click Quit to disconnect and exit cleanly.
+
+────────────────────────────────────────────────────────────────────────────────
+SETUP
+
+1. pip install -r requirements.txt
+2. Install Intiface Central from https://intiface.com/central/ and start it
+   (skip if USING_INTIFACE = no)
+3. Read WORKFLOW.md for the template-creation workflow
+4. python dbd_tracker.py
+
+────────────────────────────────────────────────────────────────────────────────
+DBD SETTINGS
+
+- Resolution: 1920x1080 (other resolutions work but are slower)
+- Aspect ratio: 16:9
+- Display mode: Borderless Windowed
+   (Exclusive fullscreen sometimes gives dxcam black frames)
+
+────────────────────────────────────────────────────────────────────────────────
+ON FIRST RUN
+
+Without any templates in data/templates/, the tracker runs but does nothing
+useful. See WORKFLOW.md to populate templates. Start with match_start and
+match_end — without those, no stats are recorded.

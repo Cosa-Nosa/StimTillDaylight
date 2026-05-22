@@ -1,0 +1,86 @@
+# events.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Declarative event configuration. Each top-level key under `templates:` is the
+# name of a template file in data/templates/ (with or without `t_` prefix and
+# `.png` suffix).
+#
+# Adding a new tracked event:
+#   1. Save the cropped HUD element as data/templates/t_<name>.png
+#   2. Add an entry below — only `type` is strictly required
+#   3. Run the tracker
+#
+# Removing an event: delete its block here (or just delete the PNG).
+#
+# Schema:
+#   type:           lifecycle | outcome | counter | continuous | passive
+#   region:         (optional) named region from regions.py — speeds up matching
+#                   and reduces false positives. Omit to search the full frame.
+#   threshold:      (optional) match confidence 0.0–1.0. Default 0.85.
+#   confirm_frames: (optional) consecutive positive frames before firing. Default 2.
+#   debounce_s:     (optional) seconds before the same event can re-fire. Default 3.0.
+#
+# Type-specific fields:
+#   lifecycle:      action: start_match | end_match
+#   outcome:        outcome: escaped | sacrificed | killed
+#                   triggers_end_match: true | false
+#   counter:        stat_counter: <stat name>       (e.g. gens_completed)
+#                   counter_cap: <int>              (optional max value)
+#                   vibe: { trigger, intensity, duration }
+#   continuous:     stat_timer: <stat name>         (e.g. time_in_chase_s)
+#                   vibe: { trigger, intensity }    (duration=0 ⇒ toggle)
+#                   on_complete:
+#                       stat_counter: <stat name>   (increments on falling edge)
+#                       vibe: { trigger, intensity, duration }
+#   passive:        no fields — template is loaded for debug viewing only
+#   digit_state:    states: { <int>: <template_name>, ... }
+#                                                   (template_name without .png)
+#                   initial: <int> | null           (starting state per match)
+#                   on_decrement:
+#                       stat_counter: <stat name>
+#                       counter_cap: <int>
+#                       vibe: { trigger, intensity, duration }
+# ─────────────────────────────────────────────────────────────────────────────
+
+templates:
+
+
+  toolbox_repair:
+    type: continuous
+    stat_timer: time_on_repair_s
+    region: center_bottom
+    threshold: 0.85
+    vibe:
+      trigger: repairing
+      intensity: 0.5
+
+  repair:
+    type: continuous
+    stat_timer: time_on_repair_s
+    region: center_bottom
+    threshold: 0.85
+    vibe:
+      trigger: repairing
+      intensity: 0.3
+
+#####insert gen counter here
+gens_remaining:
+  type: digit_state
+  region: bottom_left        # placeholder — region added later
+  threshold: 0.85
+  confirm_frames: 2
+  debounce_s: 0.5
+  states:
+    5: 5_gens_1_template
+    4: 4_gens_1_template
+    3: 3_gens_1_template
+    2: 2_gens_1_template
+    1: 1_gens_1_template
+    0: 0_gens_1_template
+  initial: 5
+  on_decrement:
+    stat_counter: gens_completed
+    counter_cap: 5
+    vibe:
+      trigger: gen_complete
+      intensity: 0.8
+      duration: 3.0

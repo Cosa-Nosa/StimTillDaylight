@@ -1,0 +1,8 @@
+opencv-python>=4.8.0
+numpy>=1.24.0
+dxcam-cpp>=0.0.5
+psutil>=5.9.0
+buttplug-py>=0.2.0
+pynput>=1.7.0
+FreeSimpleGUI>=5.1.0
+PyYAML>=6.0
