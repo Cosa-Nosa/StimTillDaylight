@@ -46,6 +46,7 @@ templates:
 
   toolbox_repair:
     type: continuous
+    enabled: true
     stat_timer: time_on_repair_s
     region: center_bottom
     threshold: 0.85
@@ -55,6 +56,7 @@ templates:
 
   repair:
     type: continuous
+    enabled: false
     stat_timer: time_on_repair_s
     region: center_bottom
     threshold: 0.85
@@ -65,6 +67,7 @@ templates:
 #####insert gen counter here
 gens_remaining:
   type: digit_state
+  enabled: true
   region: bottom_left        # placeholder — region added later
   threshold: 0.85
   confirm_frames: 2

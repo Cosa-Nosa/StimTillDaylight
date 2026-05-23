@@ -109,6 +109,8 @@ class DBDStateTracker:
 
         # Run detection for every registered event
         for name, spec in self.event_registry.items():
+            if not spec.enabled:
+                continue
             if spec.type == "digit_state":
                 self._refresh_digit_state(name, spec)
                 continue

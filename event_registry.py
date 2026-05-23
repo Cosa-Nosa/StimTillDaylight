@@ -84,6 +84,7 @@ class EventSpec:
     threshold: float = 0.85
     confirm_frames: int = 2
     debounce_s: float = 3.0
+    enabled: bool = True
 
     # Type-specific fields
     action: Optional[str] = None         # for lifecycle: "start_match" | "end_match"
@@ -186,6 +187,10 @@ def load_event_registry(events_yaml_path: str, templates_dir: str) -> dict[str, 
         if name not in discovered:
             print(f"[registry] WARNING: events.yaml has '{name}' but no template file at "
                   f"{os.path.join(templates_dir, 't_' + name + '.png')}")
+            
+    disabled = [n for n, s in registry.items() if not s.enabled]
+    if disabled:
+        print(f"[registry] Disabled by config: {', '.join(sorted(disabled))}")
 
     print(f"[registry] Loaded {len(registry)} event(s) "
           f"({sum(1 for s in registry.values() if s.type != 'passive')} active, "
@@ -205,6 +210,7 @@ def _build_spec(name: str, yaml_entry: dict) -> EventSpec:
         threshold=float(yaml_entry.get("threshold", 0.85)),
         confirm_frames=int(yaml_entry.get("confirm_frames", 2)),
         debounce_s=float(yaml_entry.get("debounce_s", 3.0)),
+        enabled=bool(yaml_entry.get("enabled", True)),
         action=yaml_entry.get("action"),
         outcome=yaml_entry.get("outcome"),
         triggers_end_match=bool(yaml_entry.get("triggers_end_match", False)),
